@@ -1,21 +1,71 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Cars from '../views/Cars.vue'
+import AddCar from '../components/AddCar.vue'
+import EditCar from '../components/EditCar.vue'
+import EditCarCompagny from '../components/EditCarCompagny.vue'
+import EditCarDriver from '../components/EditCarDriver.vue'
+import Compagnies from '../views/Compagnies.vue'
+import AddCompagny from '../components/AddCompagny.vue'
+import EditCompagny from '../components/EditCompagny.vue'
+import Drivers from '../views/Drivers.vue'
+import AddDriver from '../components/AddDriver.vue'
+import EditDriver from '../components/EditDriver.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Login
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/About.vue')
-    }
+    path: '/cars',
+    component: Cars,
+    children: [
+      {
+        path: 'add',
+        component: AddCar
+      },
+      {
+        path: 'edit/:id',
+        component: EditCar
+      },
+      {
+        path: 'compagny/:id',
+        component: EditCarCompagny
+      },
+      {
+        path: 'driver/:id',
+        component: EditCarDriver
+      }
+    ]
+  },
+  {
+    path: '/compagnies',
+    component: Compagnies,
+    children: [
+      {
+        path: 'add',
+        component: AddCompagny
+      },
+      {
+        path: 'edit/:id',
+        component: EditCompagny
+      }
+    ]
+  },
+  {
+    path: '/drivers',
+    component: Drivers,
+    children: [
+      {
+        path: 'add',
+        component: AddDriver
+      },
+      {
+        path: 'edit/:id',
+        component: EditDriver
+      }
+    ]
   }
 ]
 
