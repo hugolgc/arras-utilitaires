@@ -194,7 +194,8 @@ export default {
       car: {},
       role: localStorage.getItem('role'),
       image: {
-        domain: 'http://localhost:1337',
+        // domain: 'http://localhost:1337',
+        domain: 'https://arras-utilitaires.herokuapp.com',
         path: false
       }
     }

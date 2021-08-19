@@ -46,7 +46,8 @@ export default {
   },
   methods: {
     login() {
-      axios.post('http://localhost:1337/auth/local', {
+      // axios.post('http://localhost:1337/auth/local', {
+      axios.post('https://arras-utilitaires.herokuapp.com/auth/local', {
         identifier: this.email,
         password: this.password
       }).then(res => {
