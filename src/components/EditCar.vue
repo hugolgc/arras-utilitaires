@@ -147,7 +147,7 @@
             :style="{ backgroundImage: `url(${ image.domain + file.url })` }"
             class="h-24 bg-center bg-cover cursor-pointer"
           ></div>
-          <div @click="setFile" class="h-24 flex justify-center items-center bg-gray-200 cursor-pointer">
+          <!-- <div @click="setFile" class="h-24 flex justify-center items-center bg-gray-200 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -158,7 +158,7 @@
             ref="file"
             type="file"
             hidden
-          />
+          /> -->
         </div>
       </div>
       <div class="flex divide-x">
