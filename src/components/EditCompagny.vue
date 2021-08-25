@@ -6,12 +6,12 @@
   >
     <div @click="$router.push('/compagnies')" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"></div>
     <div class="z-10 w-full max-w-screen-md bg-white shadow-2xl">
-      <div class="px-8 py-6 overflow-scroll" :style="{ maxHeight: '90vh' }">
+      <div class="px-2 py-4 md:px-8 md:py-6 overflow-scroll" :style="{ maxHeight: '70vh' }">
         <table class="w-full table-auto divide-y">
           <tbody>
             <tr>
-              <td class="px-2 py-1.5 text-gray-400">Nom</td>
-              <td class="px-2 py-1.5">
+              <td class="px-2 py-1 text-gray-400">Nom</td>
+              <td class="px-2 py-1">
                 <input
                   v-model="compagny.name"
                   type="text" maxlength="255" required
@@ -21,8 +21,8 @@
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1.5 text-gray-400">Adresse</td>
-              <td class="px-2 py-1.5">
+              <td class="px-2 py-1 text-gray-400">Adresse</td>
+              <td class="px-2 py-1">
                 <input
                   v-model="compagny.adress"
                   type="text" maxlength="255"
@@ -32,14 +32,25 @@
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1.5 flex text-gray-400">Véhicules</td>
-              <td class="px-2 py-1.5 font-semibold">
+              <td class="px-2 py-1 flex text-gray-400">Véhicules</td>
+              <td class="px-2 py-1 font-semibold">
                 <router-link
                   v-for="car in compagny.cars"
                   :key="car.id"
                   :to="{ path: `/cars/edit/${ car.id }` }"
                   class="block"
                 >{{ car.model }}</router-link>
+              </td>
+            </tr>
+            <tr>
+              <td class="px-2 py-1 flex text-gray-400">Détail</td>
+              <td class="px-2 py-1">
+                <textarea
+                  v-model="compagny.detail"
+                  type="text" maxlength="3000" rows="3"
+                  placeholder="Saisir un détail"
+                  class="w-full focus:outline-none"
+                ></textarea>
               </td>
             </tr>
           </tbody>

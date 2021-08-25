@@ -14,7 +14,7 @@
       maxlength="255"
       required
       :class="[ error ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200' ]"
-      class="block w-full h-10 px-2  border rounded font-light mb-4 focus:outline-none"
+      class="block w-full h-10 px-2  border rounded font-light mb-4 focus:outline-none appearance-none"
     />
     <label for="password" class="block mb-1 text-gray-400 text-sm">Mot de passe</label>
     <input
@@ -25,7 +25,7 @@
       maxlength="255"
       required
       :class="[ error ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200' ]"
-      class="block w-full h-10 px-2 bg-gray-50 border border-gray-200 rounded font-light mb-6 focus:outline-none"
+      class="block w-full h-10 px-2 bg-gray-50 border border-gray-200 rounded font-light mb-6 focus:outline-none appearance-none"
     />
     <button type="submit" class="block w-full h-10 bg-red-50 border border-red-200 rounded text-red-400 font-medium hover:bg-red-100 duration-200 shadow">Connexion</button>
   </form>
@@ -63,7 +63,10 @@ export default {
     if (localStorage.getItem('token')) {
       api.get('/drivers').then(res => {
         localStorage.setItem('drivers', JSON.stringify(res.data))
-        this.$router.push('/compagnies')
+        api.get('/cars').then(res => {
+          localStorage.setItem('cars', JSON.stringify(res.data))        
+          this.$router.push('/compagnies')
+        })
       })
     }
   }

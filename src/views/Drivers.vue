@@ -16,35 +16,37 @@
         </div>
         <button @click="$router.push('/drivers/add')" class="block px-2 py-1 bg-gray-50 border-gray-200 border rounded text-gray-400 text-sm focus:outline-none">Ajouter</button>
       </div>
-      <table class="w-full table-auto divide-y border-t border-b">
-        <thead class="text-left text-gray-400">
-          <tr class="divide-x">
-            <th class="px-2 py-1 font-normal">Nom</th>
-            <th class="px-2 py-1 font-normal">Téléphone</th>
-            <th class="px-2 py-1 font-normal">Email</th>
-            <th class="px-2 py-1 font-normal">Adresse</th>
-            <th class="px-2 py-1 font-normal">Véhicules</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y">
-          <tr
-            v-for="driver in search"
-            :key="driver.id"
-            class="divide-x hover:bg-gray-100 duration-200"
-          >
-            <td @click="$router.push(`/drivers/edit/${ driver.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ driver.name }}</td>
-            <td class="px-2 py-1">{{ driver.phone }}</td>
-            <td class="px-2 py-1">{{ driver.email }}</td>
-            <td class="px-2 py-1">{{ driver.adress }}</td>
-            <td class="px-2 py-1 font-semibold">
-              <span
-                v-for="car in driver.cars"
-                :key="car.id"
-              >{{ car.model }}, </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="overflow-scroll">
+        <table :style="{ minWidth: '600px' }" class="w-full table-auto divide-y border-t border-b">
+          <thead class="text-left text-gray-400">
+            <tr class="divide-x">
+              <th class="px-2 py-1 font-normal">Nom</th>
+              <th class="px-2 py-1 font-normal">Téléphone</th>
+              <th class="px-2 py-1 font-normal">Email</th>
+              <th class="px-2 py-1 font-normal">Adresse</th>
+              <th class="px-2 py-1 font-normal">Véhicules</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr
+              v-for="driver in search"
+              :key="driver.id"
+              class="divide-x hover:bg-gray-100 duration-200"
+            >
+              <td @click="$router.push(`/drivers/edit/${ driver.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ driver.name }}</td>
+              <td class="px-2 py-1 select-all">{{ driver.phone }}</td>
+              <td class="px-2 py-1 select-all">{{ driver.email }}</td>
+              <td class="px-2 py-1 select-all">{{ driver.adress }}</td>
+              <td class="px-2 py-1 font-semibold select-all">
+                <span
+                  v-for="car in driver.cars"
+                  :key="car.id"
+                >{{ car.model }}, </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
   <router-view v-on:fetch="get" />

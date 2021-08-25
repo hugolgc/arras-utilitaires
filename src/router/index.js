@@ -5,6 +5,7 @@ import AddCar from '../components/AddCar.vue'
 import EditCar from '../components/EditCar.vue'
 import EditCarCompagny from '../components/EditCarCompagny.vue'
 import EditCarDriver from '../components/EditCarDriver.vue'
+import EditCarMileages from '../components/EditCarMileages.vue'
 import Compagnies from '../views/Compagnies.vue'
 import AddCompagny from '../components/AddCompagny.vue'
 import EditCompagny from '../components/EditCompagny.vue'
@@ -27,7 +28,13 @@ const routes = [
       },
       {
         path: 'edit/:id',
-        component: EditCar
+        component: EditCar,
+        children: [
+          {
+            path: 'mileages',
+            component: EditCarMileages
+          }
+        ]
       },
       {
         path: 'compagny/:id',

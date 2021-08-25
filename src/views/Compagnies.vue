@@ -16,31 +16,33 @@
         </div>
         <button @click="$router.push('/compagnies/add')" class="block px-2 py-1 bg-gray-50 border-gray-200 border rounded text-gray-400 text-sm focus:outline-none">Ajouter</button>
       </div>
-      <table class="w-full table-auto divide-y border-t border-b">
-        <thead class="text-left text-gray-400">
-          <tr class="divide-x">
-            <th class="px-2 py-1 font-normal">Nom</th>
-            <th class="px-2 py-1 font-normal">Adresse</th>
-            <th class="px-2 py-1 font-normal">Véhicules</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y">
-          <tr
-            v-for="compagny in search"
-            :key="compagny.id"
-            class="divide-x hover:bg-gray-100 duration-200"
-          >
-            <td @click="$router.push(`/compagnies/edit/${ compagny.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ compagny.name }}</td>
-            <td class="px-2 py-1">{{ compagny.adress }}</td>
-            <td class="px-2 py-1 font-semibold">
-              <span
-                v-for="car in compagny.cars"
-                :key="car.id"
-              >{{ car.model }}, </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="overflow-scroll">
+        <table :style="{ minWidth: '600px' }" class="w-full table-auto divide-y border-t border-b">
+          <thead class="text-left text-gray-400">
+            <tr class="divide-x">
+              <th class="px-2 py-1 font-normal">Nom</th>
+              <th class="px-2 py-1 font-normal">Adresse</th>
+              <th class="px-2 py-1 font-normal">Véhicules</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr
+              v-for="compagny in search"
+              :key="compagny.id"
+              class="divide-x hover:bg-gray-100 duration-200"
+            >
+              <td @click="$router.push(`/compagnies/edit/${ compagny.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ compagny.name }}</td>
+              <td class="px-2 py-1 select-all">{{ compagny.adress }}</td>
+              <td class="px-2 py-1 font-semibold select-all">
+                <span
+                  v-for="car in compagny.cars"
+                  :key="car.id"
+                >{{ car.model }}, </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
   <router-view v-on:fetch="get" />
