@@ -6,7 +6,7 @@
   >
     <div @click="$router.push('/compagnies')" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"></div>
     <div class="z-10 w-full max-w-screen-md bg-white shadow-2xl">
-      <div class="px-2 py-4 md:px-8 md:py-6 overflow-scroll" :style="{ maxHeight: '70vh' }">
+      <div class="px-2 py-4 md:px-8 md:py-6 overflow-auto" :style="{ maxHeight: '70vh' }">
         <table class="w-full table-auto divide-y">
           <tbody>
             <tr>
@@ -33,13 +33,17 @@
             </tr>
             <tr>
               <td class="px-2 py-1 flex text-gray-400">Véhicules</td>
-              <td class="px-2 py-1 font-semibold">
+              <td class="px-2 py-1">
                 <router-link
                   v-for="car in compagny.cars"
                   :key="car.id"
                   :to="{ path: `/cars/edit/${ car.id }` }"
-                  class="block"
+                  class="block font-semibold"
                 >{{ car.model }}</router-link>
+                <router-link
+                  :to="{ path: `/cars/add/${ compagny.id }` }"
+                  class="block pb-1 text-gray-400"
+                >Ajouter</router-link>
               </td>
             </tr>
             <tr>
@@ -92,10 +96,17 @@ export default {
         this.$emit('fetch')
         this.$router.push('/compagnies')
       })
+    },
+    setCompagny() {
+      this.compagny = JSON.parse(localStorage.getItem('compagnies')).find(compagny => compagny.id == this.$route.params.id) || []
     }
   },
   mounted() {
-    this.compagny = JSON.parse(localStorage.getItem('compagnies')).find(compagny => compagny.id == this.$route.params.id) || []
+    this.setCompagny()
+    api.get('/compagnies').then(res => {
+      localStorage.setItem('compagnies', JSON.stringify(res.data))
+      this.setCompagny()
+    })
   }
 }
 </script>

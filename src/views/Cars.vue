@@ -16,7 +16,7 @@
         </div>
         <button @click="$router.push('/cars/add')" class="block px-2 py-1 bg-gray-50 border-gray-200 border rounded text-gray-400 text-sm focus:outline-none">Ajouter</button>
       </div>
-      <div class="overflow-scroll">
+      <div class="overflow-auto">
         <table :style="{ minWidth: '600px' }" class="w-full table-auto divide-y border-t border-b">
           <thead class="text-left text-gray-400">
             <tr class="divide-x">
@@ -82,8 +82,10 @@ export default {
       }).reverse()
     }
   },
-  mounted() {
+  beforeMount() {
     if (!localStorage.getItem('token')) this.$router.push('/')
+  },
+  mounted() {
     this.get()
   }
 }

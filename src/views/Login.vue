@@ -53,14 +53,13 @@ export default {
       }).then(res => {
         localStorage.setItem('token', res.data.jwt)
         localStorage.setItem('role', res.data.user.role.type)
-        this.$router.go()
+        this.setData()
+        // console.log('nickel')
       }).catch(() => {
         this.error = true
       })
-    }
-  },
-  mounted() {
-    if (localStorage.getItem('token')) {
+    },
+    setData() {
       api.get('/drivers').then(res => {
         localStorage.setItem('drivers', JSON.stringify(res.data))
         api.get('/cars').then(res => {
@@ -69,6 +68,9 @@ export default {
         })
       })
     }
+  },
+  beforeMount() {
+    if (localStorage.getItem('token')) api.get('/compagnies').then(() => {console.log('déjà connecté'); this.$router.push('/compagnies')})
   }
 }
 </script>

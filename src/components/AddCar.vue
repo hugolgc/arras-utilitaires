@@ -6,7 +6,7 @@
   >
     <div @click="$router.push('/cars')" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"></div>
     <div class="z-10 w-full max-w-screen-md bg-white shadow-2xl">
-      <div class="px-2 py-4 md:px-8 md:py-6 overflow-scroll" :style="{ maxHeight: '70vh' }">
+      <div class="px-2 py-4 md:px-8 md:py-6 overflow-auto" :style="{ maxHeight: '70vh' }">
         <table class="w-full table-auto divide-y">
           <tbody>
             <tr>
@@ -164,9 +164,12 @@ export default {
       this.service = this.service.split('/').reverse().join('-')
       api.post('/cars', this.$data).then(() => {
         this.$emit('fetch')
-        this.$router.push('/cars')
+        this.$router.push(this.$route.params.id ? `/compagnies/edit/${ this.$route.params.id }` : '/cars')
       })
     }
+  },
+  mounted() {
+    if (this.$route.params.id) this.$data.compagny = this.$route.params.id
   }
 }
 </script>

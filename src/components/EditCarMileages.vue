@@ -11,7 +11,7 @@
       </div>
       <form
         @submit.prevent="save"
-        class="border-t overflow-scroll"
+        class="border-t overflow-auto"
         :style="{ maxHeight: '70vh' }"
       >
         <table class="w-full table-auto divide-y">

@@ -24,7 +24,8 @@ const routes = [
     children: [
       {
         path: 'add',
-        component: AddCar
+        component: AddCar,
+        alias: 'add/:id'
       },
       {
         path: 'edit/:id',

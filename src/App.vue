@@ -41,10 +41,9 @@ import api from './api'
 export default {
   methods: {
     logout() {
-      console.log('logout')
+      this.engine(false)
       localStorage.clear()
       this.$router.push('/')
-      this.engine(false)
     },
     engine(state) {
       let menu = document.getElementById('menu')
@@ -57,10 +56,8 @@ export default {
       }
     }
   },
-  mounted() {
-    if (localStorage.getItem('token')) api.get('/compagnies').catch(() => {
-      this.logout()
-    })
+  beforeMount() {
+    if (localStorage.getItem('token')) api.get('/compagnies').catch(() => this.logout())
   }
 }
 </script>
