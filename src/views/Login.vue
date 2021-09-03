@@ -46,31 +46,28 @@ export default {
   },
   methods: {
     login() {
-      // axios.post('http://localhost:1337/auth/local', {
-      axios.post('https://arras-utilitaires.herokuapp.com/auth/local', {
+      axios.post(`${ process.env.VUE_APP_URL }/auth/local`, {
         identifier: this.email,
         password: this.password
       }).then(res => {
         localStorage.setItem('token', res.data.jwt)
         localStorage.setItem('role', res.data.user.role.type)
-        this.setData()
-        // console.log('nickel')
-      }).catch(() => {
-        this.error = true
-      })
+        this.$router.push('/compagnies')
+        // this.setData()
+      }).catch((res) => { this.error = true })
     },
     setData() {
-      api.get('/drivers').then(res => {
-        localStorage.setItem('drivers', JSON.stringify(res.data))
-        api.get('/cars').then(res => {
-          localStorage.setItem('cars', JSON.stringify(res.data))        
-          this.$router.push('/compagnies')
-        })
-      })
+      // api.get('/drivers').then(res => {
+      //   localStorage.setItem('drivers', JSON.stringify(res.data))
+      //   api.get('/cars').then(res => {
+      //     localStorage.setItem('cars', JSON.stringify(res.data))        
+      //     this.$router.push('/compagnies')
+      //   })
+      // })
     }
   },
   beforeMount() {
-    if (localStorage.getItem('token')) api.get('/compagnies').then(() => {console.log('déjà connecté'); this.$router.push('/compagnies')})
+    if (localStorage.getItem('token')) api.get('/compagnies').then(() => this.$router.push('/compagnies'))
   }
 }
 </script>

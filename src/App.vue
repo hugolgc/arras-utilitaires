@@ -35,8 +35,12 @@
 </template>
 
 <script>
-import './assets/tailwind.css'
+import './assets/styles.css'
+// import './assets/master.css'
+import dotenv from 'dotenv'
 import api from './api'
+
+dotenv.config()
 
 export default {
   methods: {

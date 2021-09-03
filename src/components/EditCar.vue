@@ -149,6 +149,27 @@
               </td>
             </tr>
             <tr>
+              <td class="px-2 py-1 flex text-gray-400">Interventions</td>
+              <td class="px-2 py-1">
+                <router-link
+                  v-for="maintenance in car.maintenances"
+                  :key="maintenance.id"
+                  :to="{ path: `/cars/edit/${ car.id }/maintenances/${ maintenance.id }` }"
+                  class="block font-semibold capitalize"
+                >{{ setDate(maintenance.date) }}</router-link>
+                <div class="flex">
+                  <input
+                    v-model="newDate"
+                    type="text" required
+                    placeholder="jj/mm/aaaa"
+                    pattern="\d{1,2}/\d{1,2}/\d{4}"
+                    class="block w-28 focus:outline-none"
+                  />
+                  <p @click="newMaintenance" class="block text-gray-400 cursor-pointer">Ajouter</p>
+                </div>
+              </td>
+            </tr>
+            <tr>
               <td class="px-2 py-1 flex text-gray-400">Observation</td>
               <td class="px-2 py-1">
                 <textarea
@@ -217,13 +238,23 @@ export default {
       car: {},
       role: localStorage.getItem('role'),
       image: {
-        // domain: 'http://localhost:1337',
-        domain: 'https://arras-utilitaires.herokuapp.com',
+        domain: process.env.VUE_APP_URL,
         path: false
-      }
+      },
+      newDate: ''
     }
   },
   methods: {
+    newMaintenance() {
+      if (this.newDate !== '') {
+        this.newDate = this.newDate.split('/').reverse().join('-')
+        api.post('/maintenances', { date: this.newDate, car: this.car.id }).then(res => {
+          this.newDate = ''
+          this.car.maintenances.push(res.data)
+          this.$router.push(`/cars/edit/${ this.car.id }/maintenances/${ res.data.id }`)
+        })
+      }
+    },
     spaceNumber(x) {
       let parts = x.toString().split('.')
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
@@ -251,6 +282,14 @@ export default {
     get() {
       this.car = JSON.parse(localStorage.getItem('cars')).find(car => car.id == this.$route.params.id) || []
       if (this.car) this.car.service = this.car.service.split('-').reverse().join('/')
+    },
+    setDate(slug) {
+      let date = new Date(slug)
+      return date.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
     }
   },
   mounted() {

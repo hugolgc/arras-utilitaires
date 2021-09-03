@@ -111,7 +111,7 @@ export default {
       api.get('/cars').then(res => {
         this.car = res.data.find(car => car.id == this.car.id)
         localStorage.setItem('cars', JSON.stringify(res.data))      
-        this.$emit('update')  
+        this.$emit('update')
       })
     }
   },

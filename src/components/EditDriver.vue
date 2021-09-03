@@ -25,7 +25,7 @@
               <td class="px-2 py-1">
                 <input
                   v-model="driver.phone"
-                  type="text" maxlength="10"
+                  type="text" maxlength="14"
                   placeholder="Saisir un numéro"
                   class="w-full focus:outline-none"
                 />
@@ -68,7 +68,7 @@
         </table>
       </div>
       <div class="flex divide-x">
-        <div class="flex-1 block p-3 border-t text-gray-400 text-center cursor-pointer">Télécharger</div>
+        <div @click="download" class="flex-1 block p-3 border-t text-gray-400 text-center cursor-pointer">Télécharger</div>
         <button class="flex-1 block p-3 border-t text-gray-400 focus:outline-none">Enregistrer</button>
         <div
           v-if="role === 'super_admin'"
@@ -82,6 +82,9 @@
 
 <script>
 import api from '../api'
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from 'pdfmake/build/vfs_fonts'
+pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 export default {
   emits: ['fetch'],
@@ -102,6 +105,33 @@ export default {
       api.delete(`/drivers/${ this.driver.id }`).then(() => {
         this.$emit('fetch')
         this.$router.push('/drivers')
+      })
+    },
+    download() {
+      let body = [['Modèle', 'Numéro de série', 'Mise en service', 'Roulage annuel', 'Motorisation']]
+      this.driver.cars.forEach(car => body.push([car.model, car.serie, this.setDate(car.service), car.rolling, car.motor]))
+      pdfMake.createPdf({
+        pageSize: 'A4',
+        content: [
+          { text: this.driver.name, fontSize: 20, bold: true, },
+          { text: this.driver.phone, fontSize: 15 },
+          { text: this.driver.email, fontSize: 15 },
+          { text: this.driver.adress, fontSize: 15 },
+          {
+            fontSize: 10,
+            margin: [0, 30, 0, 0],
+            layout: 'lightHorizontalLines',
+            table: { headerRows: 1, widths: [ '*', 'auto', 'auto', '*', '*' ], body: body }
+          }
+        ]
+      }).open()
+    },
+    setDate(slug) {
+      let date = new Date(slug)
+      return date.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       })
     }
   },

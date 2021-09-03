@@ -25,7 +25,7 @@
               <td class="px-2 py-1">
                 <input
                   v-model="phone"
-                  type="text" maxlength="10"
+                  type="text" maxlength="14"
                   placeholder="Saisir un numéro"
                   class="w-full focus:outline-none"
                 />

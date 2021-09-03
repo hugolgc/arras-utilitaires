@@ -6,6 +6,7 @@ import EditCar from '../components/EditCar.vue'
 import EditCarCompagny from '../components/EditCarCompagny.vue'
 import EditCarDriver from '../components/EditCarDriver.vue'
 import EditCarMileages from '../components/EditCarMileages.vue'
+import EditCarMaintenances from '../components/EditCarMaintenances.vue'
 import Compagnies from '../views/Compagnies.vue'
 import AddCompagny from '../components/AddCompagny.vue'
 import EditCompagny from '../components/EditCompagny.vue'
@@ -34,6 +35,10 @@ const routes = [
           {
             path: 'mileages',
             component: EditCarMileages
+          },
+          {
+            path: 'maintenances/:maintenance',
+            component: EditCarMaintenances
           }
         ]
       },
