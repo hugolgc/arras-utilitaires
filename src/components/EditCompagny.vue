@@ -95,7 +95,7 @@ export default {
       })
     },
     erase() {
-      api.delete(`/compagnies/${ this.compagny.id }`).then((res) => {
+      api.delete(`/compagnies/${ this.compagny.id }`).then(() => {
         this.$emit('fetch')
         this.$router.push('/compagnies')
       })
@@ -104,8 +104,8 @@ export default {
       this.compagny = JSON.parse(localStorage.getItem('compagnies')).find(compagny => compagny.id == this.$route.params.id) || []
     },
     download() {
-      let body = [['Modèle', 'Numéro de série', 'Mise en service', 'Roulage annuel', 'Motorisation']]
-      this.compagny.cars.forEach(car => body.push([car.model, car.serie, this.setDate(car.service), car.rolling, car.motor]))
+      let body = [['Modèle', 'Numéro de série', 'Mise en service', 'Motorisation']]
+      this.compagny.cars.forEach(car => body.push([car.model, car.serie, this.setDate(car.service), car.motor]))
       pdfMake.createPdf({
         pageSize: 'A4',
         pageOrientation: 'landscape',

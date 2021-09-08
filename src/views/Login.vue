@@ -46,24 +46,15 @@ export default {
   },
   methods: {
     login() {
-      axios.post(`${ process.env.VUE_APP_URL }/auth/local`, {
+      axios.post(`${ ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? 'http' : 'https') + process.env.VUE_APP_URL }/auth/local`, {
         identifier: this.email,
         password: this.password
       }).then(res => {
         localStorage.setItem('token', res.data.jwt)
         localStorage.setItem('role', res.data.user.role.type)
-        this.$router.push('/compagnies')
-        // this.setData()
-      }).catch((res) => { this.error = true })
-    },
-    setData() {
-      // api.get('/drivers').then(res => {
-      //   localStorage.setItem('drivers', JSON.stringify(res.data))
-      //   api.get('/cars').then(res => {
-      //     localStorage.setItem('cars', JSON.stringify(res.data))        
-      //     this.$router.push('/compagnies')
-      //   })
-      // })
+        this.$router.go()
+      })
+      .catch((err) => { this.error = true })
     }
   },
   beforeMount() {

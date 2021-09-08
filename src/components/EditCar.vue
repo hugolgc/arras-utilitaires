@@ -1,6 +1,6 @@
 <template>
   <form
-    @submit.prevent="save"
+    @submit.prevent="save(true)"
     method="post"
     class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center"
   >
@@ -69,17 +69,6 @@
                   class="flex justify-between font-semibold"
                 >{{ spaceNumber(car.mileages[car.mileages.length - 1].kilometers) }} km</p>
                 <p v-else class="text-gray-400">Ajouter un kilométrage</p>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-2 py-1 text-gray-400">Roulage annuel</td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="car.rolling"
-                  type="text" maxlength="255"
-                  placeholder="Saisir un roulage"
-                  class="w-full focus:outline-none"
-                />
               </td>
             </tr>
             <tr>
@@ -160,7 +149,7 @@
                 <div class="flex">
                   <input
                     v-model="newDate"
-                    type="text" required
+                    type="text"
                     placeholder="jj/mm/aaaa"
                     pattern="\d{1,2}/\d{1,2}/\d{4}"
                     class="block w-28 focus:outline-none"
@@ -184,24 +173,24 @@
         </table>
         <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           <div
-            @click="image.path = file.url"
+            @click="image = file"
             v-for="file in car.files"
             :key="file.id"
-            :style="{ backgroundImage: `url(${ image.domain + file.url })` }"
+            :style="{ backgroundImage: `url(${ domain + file.url })` }"
             class="h-24 bg-center bg-cover cursor-pointer"
           ></div>
-          <!-- <div @click="setFile" class="h-24 flex justify-center items-center bg-gray-200 cursor-pointer">
+          <div @click="setFile" class="h-24 flex justify-center items-center bg-gray-200 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
           </div>
           <input
-            @change="addFile(car.id)"
+            @change="addFile()"
             id="upload"
             ref="file"
             type="file"
             hidden
-          /> -->
+          />
         </div>
       </div>
       <div class="flex divide-x">
@@ -216,14 +205,16 @@
     </div>
   </form>
   <div
-    v-if="image.path"
+    v-if="image"
     class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center"
   >
-    <div @click="image.path = false" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"></div>
+    <div @click="image = false" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"></div>
     <img
-      :src="image.domain + image.path"
+      :src="domain + image.url"
+      :style="{ maxHeight: '80vh'}"
       class="z-10 max-w-full xl:max-w-screen-xl shadow-2xl"
     />
+    <p @click="remove(image.id)" class="absolute bottom-0 pb-4 text-red-400 cursor-pointer">Supprimer</p>
   </div>
   <router-view v-on:update="get" />
 </template>
@@ -237,14 +228,19 @@ export default {
     return {
       car: {},
       role: localStorage.getItem('role'),
-      image: {
-        domain: process.env.VUE_APP_URL,
-        path: false
-      },
+      domain: ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? 'http' : 'https') + process.env.VUE_APP_URL,
+      image: false,
       newDate: ''
     }
   },
   methods: {
+    remove(id) {
+      api.delete(`/upload/files/${ id }`).then(() => {
+        this.car.files = this.car.files.filter(file => file.id !== id)
+        console.log(this.car.files)
+        this.image = false
+      })
+    },
     newMaintenance() {
       if (this.newDate !== '') {
         this.newDate = this.newDate.split('/').reverse().join('-')
@@ -260,11 +256,11 @@ export default {
       parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
       return parts.join('.')
     },
-    save() {
+    save(close) {
       this.car.service = this.car.service.split('/').reverse().join('-')
       api.put(`/cars/${ this.car.id }`, this.car).then(() => {
         this.$emit('fetch')
-        this.$router.push('/cars')
+        if (close) this.$router.push('/cars')
       })
     },
     erase() {
@@ -276,8 +272,13 @@ export default {
     setFile() {
       document.getElementById('upload').click()
     },
-    addFile(id) {
-      console.log('AddFile', id)
+    addFile() {
+      let form = new FormData()
+      form.append('files', document.getElementById('upload').files[0])
+      api.post('/upload', form).then(res => {
+        this.car.files.push(res.data[0])
+        this.save(false)
+      })
     },
     get() {
       this.car = JSON.parse(localStorage.getItem('cars')).find(car => car.id == this.$route.params.id) || []

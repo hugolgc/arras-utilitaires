@@ -1,9 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-  baseURL: process.env.VUE_APP_URL,
-  // baseURL: 'http://localhost:1337',
-  // baseURL: 'https://arras-utilitaires.herokuapp.com',
+  baseURL: ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? 'http' : 'https') + process.env.VUE_APP_URL,
   headers: {
     Authorization: `Bearer ${ localStorage.getItem('token') }`
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center">
     <div @click="$router.push(`/cars/edit/${ maintenance.car.id }`)" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-75"></div>
-    <div class="z-10 w-full max-w-screen-xl bg-white shadow-2xl">
+    <div class="z-10 w-full bg-white shadow-2xl" :style="{ maxWidth: '1400px' }">
       <form
         @submit.prevent="save"
         class="overflow-auto"
@@ -13,7 +13,7 @@
               <td class="p-2">
                 <select
                   v-model="add.part_type"
-                  class="w-full font-semibold text-black appearance-none outline-none cursor-pointer" required
+                  class="font-semibold text-black appearance-none outline-none cursor-pointer" required
                 >
                   <option value="" disabled selected>Pièce</option>
                   <option
@@ -36,7 +36,7 @@
                 <input
                   v-model="add.customer"
                   type="text" maxlength="255" required
-                  placeholder="Client"
+                  placeholder="Fournisseur"
                   class="w-full focus:outline-none"
                 />
               </td>

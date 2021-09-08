@@ -44,17 +44,6 @@
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Roulage annuel</td>
-              <td class="px-2 py-1">
-                <input
-                  v-model="rolling"
-                  type="text" maxlength="255"
-                  placeholder="Saisir un roulage"
-                  class="w-full focus:outline-none"
-                />
-              </td>
-            </tr>
-            <tr>
               <td class="px-2 py-1 text-gray-400">Motorisation</td>
               <td class="px-2 py-1">
                 <input
@@ -149,7 +138,6 @@ export default {
       model: '',
       serie: '',
       service: '',
-      rolling: '',
       observation: '',
       motor: '',
       brakes: '',

@@ -108,8 +108,8 @@ export default {
       })
     },
     download() {
-      let body = [['Modèle', 'Numéro de série', 'Mise en service', 'Roulage annuel', 'Motorisation']]
-      this.driver.cars.forEach(car => body.push([car.model, car.serie, this.setDate(car.service), car.rolling, car.motor]))
+      let body = [['Modèle', 'Numéro de série', 'Mise en service', 'Motorisation']]
+      this.driver.cars.forEach(car => body.push([car.model, car.serie, this.setDate(car.service), car.motor]))
       pdfMake.createPdf({
         pageSize: 'A4',
         content: [

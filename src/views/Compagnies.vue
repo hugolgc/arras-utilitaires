@@ -64,6 +64,14 @@ export default {
         this.compagnies = res.data
         localStorage.setItem('compagnies', JSON.stringify(res.data))
       })
+    },
+    setData() {
+      api.get('/drivers').then(res => {
+        localStorage.setItem('drivers', JSON.stringify(res.data))
+      })
+      api.get('/cars').then(res => {
+        localStorage.setItem('cars', JSON.stringify(res.data))        
+      })
     }
   },
   computed: {
@@ -79,6 +87,7 @@ export default {
   },
   mounted() {
     this.get()
+    this.setData()
   }
 }
 </script>
