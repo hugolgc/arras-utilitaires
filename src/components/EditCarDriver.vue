@@ -14,7 +14,7 @@
           class="w-full py-3 text-gray-400 focus:outline-none"
         />
       </div>
-      <div class="border-t">
+      <div class="border-t overflow-auto" :style="{ maxHeight: '70vh' }">
         <table class="w-full table-auto divide-y">
           <tbody class="divide-y">
             <tr
@@ -23,7 +23,6 @@
               class="divide-x hover:bg-gray-100 duration-200"
             >
               <td @click="save(driver.id)" class="px-4 py-2 font-semibold cursor-pointer">{{ driver.name }}</td>
-              <td class="px-4 py-2">{{ driver.phone }}</td>
             </tr>
           </tbody>
         </table>
@@ -64,7 +63,6 @@ export default {
     search() {
       return this.drivers.filter(driver => {
         return driver.name.toLowerCase().includes(this.input.toLowerCase())
-        || driver.phone.toLowerCase().includes(this.input.toLowerCase())
       }).reverse()
     }
   },

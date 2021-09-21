@@ -32,14 +32,24 @@
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 flex text-gray-400">Véhicules</td>
+              <td class="px-2 py-1 flex text-gray-400">Véhicules {{ compagny.cars ? `(${ compagny.cars.length })` : '' }}</td>
               <td class="px-2 py-1">
                 <router-link
                   v-for="car in compagny.cars"
                   :key="car.id"
                   :to="{ path: `/cars/edit/${ car.id }` }"
-                  class="block font-semibold"
-                >{{ car.model }}</router-link>
+                  class="flex justify-between max-w-xs"
+                >
+                  <strong class="font-semibold">{{ car.brand }} {{ car.model }}</strong>
+                  <span>{{ car.totalPrice ? `${ car.totalPrice }€` : '' }}</span>
+                </router-link>
+                <p
+                  v-if="totalAmount > 0"
+                  class="flex justify-between max-w-xs"
+                >
+                  <strong class="font-semibold">Coût total</strong>
+                  <span>{{ totalAmount }}€</span>
+                </p>
                 <router-link
                   :to="{ path: `/cars/add/${ compagny.id }` }"
                   class="block pb-1 text-gray-400"
@@ -84,7 +94,9 @@ export default {
   data() {
     return {
       compagny: {},
-      role: localStorage.getItem('role')
+      role: localStorage.getItem('role'),
+      cars: [],
+      amount: 0
     }
   },
   methods: {
@@ -102,6 +114,17 @@ export default {
     },
     setCompagny() {
       this.compagny = JSON.parse(localStorage.getItem('compagnies')).find(compagny => compagny.id == this.$route.params.id) || []
+      api.get('/parts').then(res => {
+        this.compagny.cars.forEach(car => {
+          res.data.forEach(part => {
+            if (part.maintenance.car === car.id) {
+              if (!car.totalPrice) car.totalPrice = 0
+              car.totalPrice = car.totalPrice + (part.customerPrice * part.amount)
+            }
+          })
+        })
+      })
+
     },
     download() {
       let body = [['Modèle', 'Numéro de série', 'Mise en service', 'Motorisation']]
@@ -129,6 +152,15 @@ export default {
         month: 'long',
         day: 'numeric'
       })
+    }
+  },
+  computed: {
+    totalAmount() {
+      this.amount = 0
+      if (this.compagny.cars) {
+        this.compagny.cars.forEach(car => { this.amount = this.amount + car.totalPrice })
+      }
+      return this.amount
     }
   },
   mounted() {

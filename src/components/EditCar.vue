@@ -10,6 +10,17 @@
         <table class="w-full table-auto divide-y">
           <tbody>
             <tr>
+              <td class="px-2 py-1 text-gray-400">Marque</td>
+              <td class="px-2 py-1">
+                <input
+                  v-model="car.brand"
+                  type="text" maxlength="255" required
+                  placeholder="Saisir une marque"
+                  class="w-full focus:outline-none"
+                />
+              </td>
+            </tr>
+            <tr>
               <td class="px-2 py-1 text-gray-400">Modèle</td>
               <td class="px-2 py-1">
                 <input
@@ -39,6 +50,17 @@
                   type="text" required
                   placeholder="jj/mm/aaaa"
                   pattern="\d{1,2}/\d{1,2}/\d{4}"
+                  class="w-full focus:outline-none"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="px-2 py-1 text-gray-400">Immatriculation</td>
+              <td class="px-2 py-1">
+                <input
+                  v-model="car.numberplate"
+                  type="text" maxlength="255" required
+                  placeholder="Saisir un numéro"
                   class="w-full focus:outline-none"
                 />
               </td>
@@ -141,20 +163,23 @@
               <td class="px-2 py-1 flex text-gray-400">Interventions</td>
               <td class="px-2 py-1">
                 <router-link
-                  v-for="maintenance in car.maintenances"
+                  v-for="maintenance in maintenances"
                   :key="maintenance.id"
                   :to="{ path: `/cars/edit/${ car.id }/maintenances/${ maintenance.id }` }"
-                  class="block font-semibold capitalize"
-                >{{ setDate(maintenance.date) }}</router-link>
-                <div class="flex">
+                  class="flex justify-between max-w-xs capitalize"
+                >
+                  <strong class="block font-semibold">{{ setDate(maintenance.date) }}</strong>
+                  <span class="block ml-8 font-normal">{{ maintenance.totalPrice }}€</span>
+                </router-link>
+                <div class="flex justify-between max-w-xs">
                   <input
                     v-model="newDate"
                     type="text"
                     placeholder="jj/mm/aaaa"
                     pattern="\d{1,2}/\d{1,2}/\d{4}"
-                    class="block w-28 focus:outline-none"
+                    class="w-28 focus:outline-none"
                   />
-                  <p @click="newMaintenance" class="block text-gray-400 cursor-pointer">Ajouter</p>
+                  <p @click="newMaintenance" class="text-gray-400 cursor-pointer">Ajouter</p>
                 </div>
               </td>
             </tr>
@@ -214,7 +239,7 @@
       :style="{ maxHeight: '80vh'}"
       class="z-10 max-w-full xl:max-w-screen-xl shadow-2xl"
     />
-    <p @click="remove(image.id)" class="absolute bottom-0 pb-4 text-red-400 cursor-pointer">Supprimer</p>
+    <p v-if="role === 'super_admin'" @click="remove(image.id)" class="absolute bottom-0 pb-4 text-red-400 cursor-pointer">Supprimer</p>
   </div>
   <router-view v-on:update="get" />
 </template>
@@ -228,16 +253,16 @@ export default {
     return {
       car: {},
       role: localStorage.getItem('role'),
-      domain: ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? 'http' : 'https') + process.env.VUE_APP_URL,
+      domain: process.env.VUE_APP_URL,
       image: false,
-      newDate: ''
+      newDate: '',
+      maintenances: []
     }
   },
   methods: {
     remove(id) {
       api.delete(`/upload/files/${ id }`).then(() => {
         this.car.files = this.car.files.filter(file => file.id !== id)
-        console.log(this.car.files)
         this.image = false
       })
     },
@@ -282,7 +307,17 @@ export default {
     },
     get() {
       this.car = JSON.parse(localStorage.getItem('cars')).find(car => car.id == this.$route.params.id) || []
-      if (this.car) this.car.service = this.car.service.split('-').reverse().join('/')
+      if (this.car) {
+        this.car.service = this.car.service.split('-').reverse().join('/')
+        this.car.maintenances.forEach(maintenance => api.get(`/maintenances/${ maintenance.id }`).then(res => {
+          let maintenance = res.data
+          maintenance.totalPrice = 0
+          maintenance.parts.forEach(part => {
+            maintenance.totalPrice = maintenance.totalPrice + (part.customerPrice * part.amount)
+          })
+          this.maintenances.push(maintenance)
+        }))
+      }
     },
     setDate(slug) {
       let date = new Date(slug)

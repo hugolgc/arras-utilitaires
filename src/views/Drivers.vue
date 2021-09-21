@@ -41,7 +41,7 @@
                 <span
                   v-for="car in driver.cars"
                   :key="car.id"
-                >{{ car.model }}, </span>
+                >{{ car.brand }} {{ car.model }}, </span>
               </td>
             </tr>
           </tbody>

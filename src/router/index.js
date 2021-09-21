@@ -13,11 +13,16 @@ import EditCompagny from '../components/EditCompagny.vue'
 import Drivers from '../views/Drivers.vue'
 import AddDriver from '../components/AddDriver.vue'
 import EditDriver from '../components/EditDriver.vue'
+import Suppliers from '../views/Suppliers.vue'
 
 const routes = [
   {
     path: '/',
     component: Login
+  },
+  {
+    path: '/suppliers',
+    component: Suppliers
   },
   {
     path: '/cars',

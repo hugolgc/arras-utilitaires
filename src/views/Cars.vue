@@ -20,8 +20,8 @@
         <table :style="{ minWidth: '600px' }" class="w-full table-auto divide-y border-t border-b">
           <thead class="text-left text-gray-400">
             <tr class="divide-x">
-              <th class="px-2 py-1 font-normal">Modèle</th>
-              <th class="px-2 py-1 font-normal">Numéro de série</th>
+              <th class="px-2 py-1 font-normal">Véhicule</th>
+              <th class="px-2 py-1 font-normal">Immatriculation</th>
               <th class="px-2 py-1 font-normal">Mise en service</th>
               <th class="px-2 py-1 font-normal">Entreprise</th>
               <th class="px-2 py-1 font-normal">Conducteur</th>
@@ -33,8 +33,8 @@
               :key="car.id"
               class="divide-x hover:bg-gray-100 duration-200"
             >
-              <td @click="$router.push(`/cars/edit/${ car.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ car.model }}</td>
-              <td class="px-2 py-1 select-all">{{ car.serie }}</td>
+              <td @click="$router.push(`/cars/edit/${ car.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ car.brand }} {{ car.model }}</td>
+              <td class="px-2 py-1 select-all">{{ car.numberplate }}</td>
               <td class="px-2 py-1 capitalize select-all">{{ setDate(car.service) }}</td>
               <td @click="$router.push(`/cars/compagny/${ car.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ car.compagny ? car.compagny.name : '' }}</td>
               <td @click="$router.push(`/cars/driver/${ car.id }`)" class="px-2 py-1 font-semibold cursor-pointer">{{ car.driver ? car.driver.name : '' }}</td>
@@ -76,9 +76,9 @@ export default {
   computed: {
     search() {
       return this.cars.filter(car => {
-        return car.model.toLowerCase().includes(this.input.toLowerCase())
-        || car.serie.toLowerCase().includes(this.input.toLowerCase())
-        || car.service.toLowerCase().includes(this.input.toLowerCase())
+        return car.brand.toLowerCase().includes(this.input.toLowerCase())
+        || car.model.toLowerCase().includes(this.input.toLowerCase())
+        || car.numberplate.toLowerCase().includes(this.input.toLowerCase())
       }).reverse()
     }
   },

@@ -37,7 +37,7 @@
                 <span
                   v-for="car in compagny.cars"
                   :key="car.id"
-                >{{ car.model }}, </span>
+                >{{ car.brand }} {{ car.model }}, </span>
               </td>
             </tr>
           </tbody>

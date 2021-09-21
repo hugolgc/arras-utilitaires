@@ -61,7 +61,7 @@
                   :key="car.id"
                   :to="{ path: `/cars/edit/${ car.id }` }"
                   class="block"
-                >{{ car.model }}</router-link>
+                >{{ car.brand }} {{ car.model }}</router-link>
               </td>
             </tr>
           </tbody>

@@ -23,7 +23,7 @@
                   >{{ partType.name }}</option>
                 </select>
               </td>
-              <td class="p-2">
+              <!-- <td class="p-2">
                 <input
                   v-model="add.date"
                   type="text" required
@@ -31,7 +31,7 @@
                   pattern="\d{1,2}/\d{1,2}/\d{4}"
                   class="w-full focus:outline-none"
                 />
-              </td>
+              </td> -->
               <td class="p-2">
                 <input
                   v-model="add.customer"
@@ -96,7 +96,7 @@
               class="divide-x"
             >
               <td class="p-2 font-semibold">{{ setPartType(part.part_type) }}</td>
-              <td class="p-2 capitalize">{{ setDate(part.date) }}</td>
+              <!-- <td class="p-2 capitalize">{{ setDate(part.date) }}</td> -->
               <td class="p-2">{{ part.customer }}</td>
               <td class="p-2">{{ part.reference }}</td>
               <td class="p-2 text-right">{{ part.amount }}</td>
@@ -114,12 +114,12 @@
       </form>
       <div class="flex divide-x">
         <!-- <div class="flex-1 block p-3 border-t text-gray-400 text-center cursor-pointer">Télécharger</div> -->
-        <!-- <div class="flex-1 p-3 border-t font-semibold text-center">320 €</div> -->
         <div
           v-if="role === 'super_admin'"
           @click="clear(maintenance.id)"
           class="flex-1 block p-3 border-t text-red-400 text-center cursor-pointer"
         >Supprimer cette intervention</div>
+        <div class="flex-1 p-3 border-t text-center">Coût total de {{ totalPrice }}€</div>
       </div>
     </div>
   </div>
@@ -138,7 +138,6 @@ export default {
       add: {
         maintenance: this.$route.params.maintenance,
         part_type: '',
-        date: '',
         customer: '',
         reference: '',
         amount: '',
@@ -166,7 +165,7 @@ export default {
       })
     },
     save() {
-      this.add.date = this.add.date.split('/').reverse().join('-')
+      // this.add.date = this.add.date.split('/').reverse().join('-')
       api.post('/parts', this.add).then(() => {
         this.get()
         for (let x in this.add) {
@@ -189,6 +188,17 @@ export default {
         localStorage.setItem('cars', JSON.stringify(res.data))      
         this.$emit('update')
       })
+    }
+  },
+  computed: {
+    totalPrice() {
+      let price = 0
+      if (Object.keys(this.maintenance).length) {
+        this.maintenance.parts.forEach(part => {
+          price = price + (part.customerPrice * part.amount)
+        })
+      }
+      return price
     }
   },
   mounted() {

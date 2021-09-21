@@ -25,6 +25,10 @@
           <span class="md:hidden lg:inline">👨‍⚕️&nbsp;</span>
           <span class="ml-4 md:ml-1">Conducteurs</span>
         </router-link>
+        <router-link @click="engine(false)" to="/suppliers" class="pl-6 md:pl-0 md:px-3 text-2xl font-semibold md:text-base md:font-normal lg:px-5">
+          <span class="md:hidden lg:inline">⚙️&nbsp;</span>
+          <span class="ml-4 md:ml-1">Fournisseurs</span>
+        </router-link>
         <div @click="logout()" class="pl-6 md:pl-0 md:px-3 text-2xl font-semibold md:text-base md:font-normal lg:px-5 cursor-pointer">
           <span class="md:hidden lg:inline">🚶‍♂️&nbsp;</span>
           <span class="ml-4 md:ml-1">Déconnexion</span>

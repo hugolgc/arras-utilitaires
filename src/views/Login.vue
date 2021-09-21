@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     login() {
-      axios.post(`${ ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ? 'http' : 'https') + process.env.VUE_APP_URL }/auth/local`, {
+      axios.post(`${ process.env.VUE_APP_URL }/auth/local`, {
         identifier: this.email,
         password: this.password
       }).then(res => {

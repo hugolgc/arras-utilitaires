@@ -10,6 +10,17 @@
         <table class="w-full table-auto divide-y">
           <tbody>
             <tr>
+              <td class="px-2 py-1 text-gray-400">Marque</td>
+              <td class="px-2 py-1">
+                <input
+                  v-model="brand"
+                  type="text" maxlength="255" required
+                  placeholder="Saisir une marque"
+                  class="w-full focus:outline-none"
+                />
+              </td>
+            </tr>
+            <tr>
               <td class="px-2 py-1 text-gray-400">Modèle</td>
               <td class="px-2 py-1">
                 <input
@@ -39,6 +50,17 @@
                   type="text" required
                   placeholder="jj/mm/aaaa"
                   pattern="\d{1,2}/\d{1,2}/\d{4}"
+                  class="w-full focus:outline-none"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="px-2 py-1 text-gray-400">Immatriculation</td>
+              <td class="px-2 py-1">
+                <input
+                  v-model="numberplate"
+                  type="text" maxlength="255" required
+                  placeholder="Saisir un numéro"
                   class="w-full focus:outline-none"
                 />
               </td>
@@ -135,8 +157,10 @@ export default {
   emits: ['fetch'],
   data() {
     return {
+      brand: '',
       model: '',
       serie: '',
+      numberplate: '',
       service: '',
       observation: '',
       motor: '',
