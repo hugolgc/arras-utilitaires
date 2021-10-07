@@ -5,34 +5,34 @@
     class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center"
   >
     <div @click="$router.push('/compagnies')" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"></div>
-    <div class="z-10 w-full max-w-screen-md bg-white shadow-2xl">
+    <div class="z-10 w-full max-w-screen-md bg-white dark:bg-gray-900 shadow-2xl">
       <div class="px-2 py-4 md:px-8 md:py-6 overflow-auto" :style="{ maxHeight: '70vh' }">
-        <table class="w-full table-auto divide-y">
+        <table class="w-full table-auto divide-y dark:divide-gray-700">
           <tbody>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Nom</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Nom</td>
               <td class="px-2 py-1">
                 <input
                   v-model="compagny.name"
                   type="text" maxlength="255" required
                   placeholder="Saisir un nom"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Adresse</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Adresse</td>
               <td class="px-2 py-1">
                 <input
                   v-model="compagny.adress"
                   type="text" maxlength="255"
                   placeholder="Saisir une adresse"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 flex text-gray-400">Véhicules {{ compagny.cars ? `(${ compagny.cars.length })` : '' }}</td>
+              <td class="px-2 py-1 flex text-gray-400 dark:text-gray-500">Véhicules {{ compagny.cars ? `(${ compagny.cars.length })` : '' }}</td>
               <td class="px-2 py-1">
                 <router-link
                   v-for="car in compagny.cars"
@@ -52,31 +52,31 @@
                 </p>
                 <router-link
                   :to="{ path: `/cars/add/${ compagny.id }` }"
-                  class="block pb-1 text-gray-400"
+                  class="block pb-1 text-gray-400 dark:text-gray-500"
                 >Ajouter</router-link>
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 flex text-gray-400">Détail</td>
+              <td class="px-2 py-1 flex text-gray-400 dark:text-gray-500">Détail</td>
               <td class="px-2 py-1">
                 <textarea
                   v-model="compagny.detail"
                   type="text" maxlength="3000" rows="3"
                   placeholder="Saisir un détail"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 ></textarea>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="flex divide-x">
-        <div @click="download" class="flex-1 block p-3 border-t text-gray-400 text-center cursor-pointer">Télécharger</div>
-        <button class="flex-1 block p-3 border-t text-gray-400 focus:outline-none">Enregistrer</button>
+      <div class="flex divide-x dark:divide-gray-700">
+        <div @click="download" class="flex-1 block p-3 border-t dark:border-gray-700 text-gray-400 dark:text-gray-500 text-center cursor-pointer">Télécharger</div>
+        <button class="flex-1 block p-3 border-t dark:border-gray-700 text-gray-400 dark:text-gray-500 focus:outline-none">Enregistrer</button>
         <div
           v-if="role === 'super_admin'"
           @click="erase"
-          class="flex-1 block p-3 border-t text-red-400 text-center cursor-pointer"
+          class="flex-1 block p-3 border-t dark:border-gray-700 text-red-400 text-center cursor-pointer"
         >Supprimer</div>
       </div>
     </div>

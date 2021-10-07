@@ -5,68 +5,68 @@
     class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center"
   >
     <div @click="$router.push('/cars')" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"></div>
-    <div class="z-10 w-full max-w-screen-md bg-white shadow-2xl">
+    <div class="z-10 w-full max-w-screen-md bg-white dark:bg-gray-900 shadow-2xl">
       <div class="px-2 py-4 md:px-8 md:py-6 space-y-6 overflow-auto" :style="{ maxHeight: '70vh' }">
-        <table class="w-full table-auto divide-y">
+        <table class="w-full table-auto divide-y dark:divide-gray-700">
           <tbody>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Marque</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Marque</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.brand"
                   type="text" maxlength="255" required
                   placeholder="Saisir une marque"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Modèle</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Modèle</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.model"
                   type="text" maxlength="255" required
                   placeholder="Saisir un modèle"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Numéro de série</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Numéro de série</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.serie"
                   type="text" maxlength="255" required
                   placeholder="Saisir un numéro"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Mise en service</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Mise en service</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.service"
                   type="text" required
                   placeholder="jj/mm/aaaa"
                   pattern="\d{1,2}/\d{1,2}/\d{4}"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Immatriculation</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Immatriculation</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.numberplate"
                   type="text" maxlength="255" required
                   placeholder="Saisir un numéro"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr v-if="car.compagny">
-              <td class="px-2 py-1 text-gray-400">Entreprise</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Entreprise</td>
               <td class="px-2 py-1 font-semibold">
                 <router-link
                   :to="{ path: `/compagnies/edit/${ car.compagny.id }` }"
@@ -75,7 +75,7 @@
               </td>
             </tr>
             <tr v-if="car.driver">
-              <td class="px-2 py-1 text-gray-400">Conducteur</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Conducteur</td>
               <td class="px-2 py-1 font-semibold">
                 <router-link
                   :to="{ path: `/drivers/edit/${ car.driver.id }` }"
@@ -84,83 +84,105 @@
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 flex text-gray-400">Kilométrage</td>
+              <td class="px-2 py-1 flex text-gray-400 dark:text-gray-500">Kilométrage</td>
               <td @click="$router.push(`/cars/edit/${ car.id }/mileages`)" class="px-2 py-1 cursor-pointer">
                 <p
                   v-if="car.mileages && car.mileages.length"
                   class="flex justify-between font-semibold"
                 >{{ spaceNumber(car.mileages[car.mileages.length - 1].kilometers) }} km</p>
-                <p v-else class="text-gray-400">Ajouter un kilométrage</p>
+                <p v-else class="text-gray-400 dark:text-gray-500">Ajouter un kilométrage</p>
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Motorisation</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Motorisation</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.motor"
                   type="text" maxlength="255"
                   placeholder="Saisir une motorisation"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Plaquettes de frein</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Plaquettes de frein</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.brakes"
                   type="text" maxlength="255"
                   placeholder="Saisir une référence"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Filtre à carburant</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Filtre à carburant</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.fuel"
                   type="text" maxlength="255"
                   placeholder="Saisir une référence"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Filtre à huile</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Filtre à huile</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.oil"
                   type="text" maxlength="255"
                   placeholder="Saisir une référence"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Filtre à air</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Filtre à air</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.air"
                   type="text" maxlength="255"
                   placeholder="Saisir une référence"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 text-gray-400">Filtre à air lodge</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Filtre à habitacle</td>
               <td class="px-2 py-1">
                 <input
                   v-model="car.lodge"
                   type="text" maxlength="255"
                   placeholder="Saisir une référence"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 flex text-gray-400">Interventions</td>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Plaquettes de freins AV et AR</td>
+              <td class="px-2 py-1">
+                <input
+                  v-model="car.brakePads"
+                  type="text" maxlength="255"
+                  placeholder="Saisir une référence"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="px-2 py-1 text-gray-400 dark:text-gray-500">Disques de frein AV et AR</td>
+              <td class="px-2 py-1">
+                <input
+                  v-model="car.brakeDiscs"
+                  type="text" maxlength="255"
+                  placeholder="Saisir une référence"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="px-2 py-1 flex text-gray-400 dark:text-gray-500">Interventions</td>
               <td class="px-2 py-1">
                 <router-link
                   v-for="maintenance in maintenances"
@@ -177,20 +199,20 @@
                     type="text"
                     placeholder="jj/mm/aaaa"
                     pattern="\d{1,2}/\d{1,2}/\d{4}"
-                    class="w-28 focus:outline-none"
+                    class="w-28 focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                   />
-                  <p @click="newMaintenance" class="text-gray-400 cursor-pointer">Ajouter</p>
+                  <p @click="newMaintenance" class="text-gray-400 dark:text-gray-500 cursor-pointer">Ajouter</p>
                 </div>
               </td>
             </tr>
             <tr>
-              <td class="px-2 py-1 flex text-gray-400">Observation</td>
+              <td class="px-2 py-1 flex text-gray-400 dark:text-gray-500">Observation</td>
               <td class="px-2 py-1">
                 <textarea
                   v-model="car.observation"
                   type="text" maxlength="3000" rows="3"
                   placeholder="Saisir une observation"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 ></textarea>
               </td>
             </tr>
@@ -204,8 +226,8 @@
             :style="{ backgroundImage: `url(${ domain + file.url })` }"
             class="h-24 bg-center bg-cover cursor-pointer"
           ></div>
-          <div @click="setFile" class="h-24 flex justify-center items-center bg-gray-200 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div @click="setFile" class="h-24 flex justify-center items-center bg-gray-200 dark:bg-gray-800 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
           </div>
@@ -218,13 +240,13 @@
           />
         </div>
       </div>
-      <div class="flex divide-x">
-        <div class="flex-1 block p-3 border-t text-gray-400 text-center cursor-pointer">Télécharger</div>
-        <button class="flex-1 block p-3 border-t text-gray-400 focus:outline-none">Enregistrer</button>
+      <div class="flex divide-x dark:divide-gray-700">
+        <div class="flex-1 block p-3 border-t dark:border-gray-700 text-gray-400 dark:text-gray-500 text-center cursor-pointer">Télécharger</div>
+        <button class="flex-1 block p-3 border-t dark:border-gray-700 text-gray-400 dark:text-gray-500 focus:outline-none">Enregistrer</button>
         <div
           v-if="role === 'super_admin'"
           @click="erase"
-          class="flex-1 block p-3 border-t text-red-400 text-center cursor-pointer"
+          class="flex-1 block p-3 border-t dark:border-gray-700 text-red-400 text-center cursor-pointer"
         >Supprimer</div>
       </div>
     </div>

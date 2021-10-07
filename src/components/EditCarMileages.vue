@@ -1,9 +1,9 @@
 <template>
   <div class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center">
     <div @click="$router.push(`/cars/edit/${ car.id }`)" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-75"></div>
-    <div class="z-10 w-full max-w-screen-md bg-white shadow-2xl">
+    <div class="z-10 w-full max-w-screen-md bg-white dark:bg-gray-900 shadow-2xl">
       <div v-if="car.mileages && car.mileages.length > 1" class="flex justify-between px-4 py-3">
-        <p class="text-gray-400">Choisir deux dates</p>
+        <p class="text-gray-400 dark:text-gray-500">Choisir deux dates</p>
         <p v-if="choices.length > 1" class="space-x-4 font-semibold">
           <span>{{ getDays }} jours</span>
           <span>{{ spaceNumber(getKilometers) }} km</span>
@@ -11,18 +11,18 @@
       </div>
       <form
         @submit.prevent="save"
-        class="border-t overflow-auto"
+        class="border-t dark:border-gray-700 overflow-auto"
         :style="{ maxHeight: '70vh' }"
       >
-        <table class="w-full table-auto divide-y">
-          <tbody class="divide-y">
+        <table class="w-full table-auto divide-y dark:divide-gray-700">
+          <tbody class="divide-y dark:divide-gray-700">
             <tr
               v-for="mileage in car.mileages"
               :key="mileage.id"
               :class="[ choices.find(choice => choice.id == mileage.id) ? 'bg-gray-100' : '' ]"
               class="duration-200"
             >
-              <td class="px-4 py-2 border-r font-semibold">{{ spaceNumber(mileage.kilometers) }} km</td>
+              <td class="px-4 py-2 border-r font-semibold dark:border-gray-700">{{ spaceNumber(mileage.kilometers) }} km</td>
               <td @click="addChoice(mileage)" class="px-4 py-2 cursor-pointer capitalize">{{ setDate(mileage.date) }}</td>
               <td @click="erase(mileage.id)" class="px-2 text-gray-300 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -31,12 +31,12 @@
               </td>
             </tr>
             <tr>
-              <td class="border-r">
+              <td class="border-r dark:border-gray-700">
                 <input
                   v-model="kilometers"
                   type="number" step="0.1" max="999999999" required
                   placeholder="Saisir un kilométrage"
-                  class="w-full h-10 px-4 focus:outline-none"
+                  class="w-full h-10 px-4 focus:outline-none bg-transparent dark:placeholder-gray-700 dark:text-white"
                 />
               </td>
               <td class="flex">
@@ -45,7 +45,7 @@
                   type="text" required
                   placeholder="jj/mm/aaaa"
                   pattern="\d{1,2}/\d{1,2}/\d{4}"
-                  class="w-full h-10 px-4 focus:outline-none"
+                  class="w-full h-10 px-4 focus:outline-none bg-transparent dark:placeholder-gray-700 dark:text-white"
                 />
               </td>
               <td class="px-2">

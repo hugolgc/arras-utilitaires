@@ -1,19 +1,19 @@
 <template>
   <div class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center">
     <div @click="$router.push(`/cars/edit/${ maintenance.car.id }`)" class="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-75"></div>
-    <div class="z-10 w-full bg-white shadow-2xl" :style="{ maxWidth: '1400px' }">
+    <div class="z-10 w-full bg-white dark:bg-gray-900 shadow-2xl" :style="{ maxWidth: '1400px' }">
       <form
         @submit.prevent="save"
         class="overflow-auto"
         :style="{ maxHeight: '70vh' }"
       >
-        <table class="w-full table-auto divide-y" :style="{ minWidth: '1000px' }">
-          <thead class="text-left text-gray-400">
-            <tr class="divide-x">
+        <table class="w-full table-auto divide-y dark:divide-gray-700" :style="{ minWidth: '1000px' }">
+          <thead class="text-left text-gray-400 dark:text-gray-500">
+            <tr class="divide-x dark:divide-gray-700">
               <td class="p-2">
                 <select
                   v-model="add.part_type"
-                  class="font-semibold text-black appearance-none outline-none cursor-pointer" required
+                  class="font-semibold text-black appearance-none outline-none cursor-pointer bg-transparent dark:text-gray-200" required
                 >
                   <option value="" disabled selected>Pièce</option>
                   <option
@@ -29,7 +29,7 @@
                   type="text" required
                   placeholder="Date (jj/mm/aaaa)"
                   pattern="\d{1,2}/\d{1,2}/\d{4}"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td> -->
               <td class="p-2">
@@ -37,7 +37,7 @@
                   v-model="add.customer"
                   type="text" maxlength="255" required
                   placeholder="Fournisseur"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
               <td class="p-2">
@@ -45,7 +45,7 @@
                   v-model="add.reference"
                   type="text" maxlength="255" required
                   placeholder="Référence"
-                  class="w-full focus:outline-none"
+                  class="w-full focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
               <td class="p-2">
@@ -53,23 +53,23 @@
                   v-model="add.amount"
                   type="number" max="999999" step=".01" required
                   placeholder="Quantité"
-                  class="w-full text-right focus:outline-none"
+                  class="w-full text-right focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
               <td class="p-2">
                 <input
                   v-model="add.publicPrice"
-                  type="number" max="999999" step=".01" required
+                  type="number" max="999999" step=".01"
                   placeholder="Tarif public"
-                  class="w-full text-right focus:outline-none"
+                  class="w-full text-right focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
               <td class="p-2">
                 <input
                   v-model="add.purchasePrice"
-                  type="number" max="999999" step=".01" required
+                  type="number" max="999999" step=".01"
                   placeholder="Tarif achat remisé"
-                  class="w-full text-right focus:outline-none"
+                  class="w-full text-right focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
               <td class="p-2">
@@ -77,23 +77,23 @@
                   v-model="add.customerPrice"
                   type="number" max="999999" step=".01" required
                   placeholder="Tarif client"
-                  class="w-full text-right focus:outline-none"
+                  class="w-full text-right focus:outline-none bg-transparent dark:placeholder-gray-500 dark:text-white"
                 />
               </td>
               <td class="p-2">
                 <button class="block w-full text-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
                 </button>
               </td>
             </tr>
           </thead>
-          <tbody class="divide-y">
+          <tbody class="divide-y dark:divide-gray-700">
             <tr
               v-for="part in maintenance.parts"
               :key="part.id"
-              class="divide-x"
+              class="divide-x dark:divide-gray-700"
             >
               <td class="p-2 font-semibold">{{ setPartType(part.part_type) }}</td>
               <!-- <td class="p-2 capitalize">{{ setDate(part.date) }}</td> -->
@@ -104,7 +104,7 @@
               <td class="p-2 text-right">{{ part.purchasePrice }} €</td>
               <td class="p-2 text-right">{{ part.customerPrice }} €</td>
               <td @click="erase(part.id)" class="p-2 text-center cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </td>
@@ -112,14 +112,14 @@
           </tbody>
         </table>
       </form>
-      <div class="flex divide-x">
-        <!-- <div class="flex-1 block p-3 border-t text-gray-400 text-center cursor-pointer">Télécharger</div> -->
+      <div class="flex divide-x dark:divide-gray-700">
+        <!-- <div class="flex-1 block p-3 border-t dark:border-gray-700 text-gray-400 dark:text-gray-500 text-center cursor-pointer">Télécharger</div> -->
         <div
           v-if="role === 'super_admin'"
           @click="clear(maintenance.id)"
-          class="flex-1 block p-3 border-t text-red-400 text-center cursor-pointer"
+          class="flex-1 block p-3 border-t dark:border-gray-700 text-red-400 text-center cursor-pointer"
         >Supprimer cette intervention</div>
-        <div class="flex-1 p-3 border-t text-center">Coût total de {{ totalPrice }}€</div>
+        <div class="flex-1 p-3 border-t dark:border-gray-700 text-center">Coût total de {{ totalPrice }}€</div>
       </div>
     </div>
   </div>
@@ -165,7 +165,9 @@ export default {
       })
     },
     save() {
-      // this.add.date = this.add.date.split('/').reverse().join('-')
+      this.add.publicPrice = this.add.publicPrice === '' ? 0 : this.add.publicPrice
+      this.add.purchasePrice = this.add.purchasePrice === '' ? 0 : this.add.purchasePrice
+      this.add.customerPrice = this.add.customerPrice === '' ? 0 : this.add.customerPrice
       api.post('/parts', this.add).then(() => {
         this.get()
         for (let x in this.add) {
